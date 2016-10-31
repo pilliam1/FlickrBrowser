@@ -20,7 +20,7 @@ enum DownloadStatus {IDLE, PROCESSING, NOT_INITIALIZED, FAILED_OR_EMPTY, OK}
 //providing a string url and getting a string back
 //create a enum to hold a list of download statuses
 //enum is containing all the states/possibilities this class can be in
-//GIT IS HARD LULl
+//actually so hard
 
 class GetRawData extends AsyncTask<String, Void, String> {
     private static final String TAG = "GetRawData";
