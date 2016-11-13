@@ -20,17 +20,23 @@ enum DownloadStatus {IDLE, PROCESSING, NOT_INITIALIZED, FAILED_OR_EMPTY, OK}
 //providing a string url and getting a string back
 //create a enum to hold a list of download statuses
 //enum is containing all the states/possibilities this class can be in
-//initial commit x6
 
 class GetRawData extends AsyncTask<String, Void, String> {
     private static final String TAG = "GetRawData";
 
     //field to track download status
     private DownloadStatus downloadStatus;
+    //field to store our callback class
+    private final OnDownloadComplete mCallBack;
 
-    //constructor
-    public GetRawData() {
+    interface OnDownloadComplete {
+        void onDownloadComplete(String data, DownloadStatus status);
+    }
+
+    //constructor so it can instantiate a few things.. like the callback!
+    public GetRawData(OnDownloadComplete callBack) {
         this.downloadStatus = DownloadStatus.IDLE;
+        mCallBack = callBack;
     }
 
     //need to override the required Async methods
@@ -38,7 +44,10 @@ class GetRawData extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         Log.d(TAG, "onPostExecute: parameter = " + s);
-
+        if(mCallBack != null){
+            mCallBack.onDownloadComplete(s, downloadStatus);
+        }
+        Log.d(TAG, "onPostExecute: end");
     }
 
     @Override
