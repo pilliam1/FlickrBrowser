@@ -46,9 +46,10 @@ class GetRawData extends AsyncTask<String, Void, String> {
     }
 
     //need to override the required Async methods
+    //calls the call back interface to run onDownloadComplete
     @Override
     protected void onPostExecute(String s) {
-        Log.d(TAG, "onPostExecute: parameter = " + s);
+        //Log.d(TAG, "onPostExecute: parameter = " + s);
         if(mCallBack != null){
             mCallBack.onDownloadComplete(s, downloadStatus);
         }
