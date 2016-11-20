@@ -1,6 +1,7 @@
 package com.example.william.flickrbrowser;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -16,7 +17,7 @@ import java.util.List;
 
 //This class can grab the call back from GetRawData but it also creates it own interface that can pass the value to MainActivity
 
-class GetFlickrJsonData implements GetRawData.OnDownloadComplete {
+class GetFlickrJsonData extends AsyncTask<String, Void, List<Photo>> implements GetRawData.OnDownloadComplete {
     private static final String TAG = "GetFlickrJsonData";
 
 
@@ -52,6 +53,27 @@ class GetFlickrJsonData implements GetRawData.OnDownloadComplete {
         Log.d(TAG, "executeOnSameThread: ends");
     }
 
+    @Override
+    protected void onPostExecute(List<Photo> photos) {
+        Log.d(TAG, "onPostExecute: starts");
+        if (mCallBack != null){
+            mCallBack.onDataAvailable(mPhotoList, DownloadStatus.OK);
+        }
+        Log.d(TAG, "onPostExecute: ends");
+    }
+
+    //doInBackGround does the same as executeOnSameThread does, except it will be on a background thread
+    @Override
+    protected List<Photo> doInBackground(String... params) {
+        Log.d(TAG, "doInBackground: Starts");
+        String destinationUri = createUri(params[0], mLanguage, mMatchAll);
+
+        GetRawData getRawData = new GetRawData(this);
+        getRawData.runInSameThread(destinationUri);
+        Log.d(TAG, "doInBackground: ends");
+        return mPhotoList;
+    }
+
     private String createUri(String searchCriteria, String lang, boolean matchAll){
         Log.d(TAG, "createUrl: starts");
 
@@ -70,6 +92,8 @@ class GetFlickrJsonData implements GetRawData.OnDownloadComplete {
     }
 
     //overriding interface
+    //after the raw data has been downloaded by GetRawData, this method gets called.
+    //we implement this interface so that we can override it to parse the raw data and pass it to the array list being used by the Photo class.
     @Override
     public void onDownloadComplete(String data, DownloadStatus status) {
         Log.d(TAG, "onDownloadComplete starts. Status = " + status);
@@ -95,7 +119,9 @@ class GetFlickrJsonData implements GetRawData.OnDownloadComplete {
                     //the small image will show in the recycler view. But when we click, it will be converted to the big image and opened in a new activity
                     String link = photoUrl.replaceFirst("_m.", "_b.");
 
-                    //giving fields to Photo class
+                    //giving fields to Photo class, taking values from the constructor in the photo class
+                    //created a link variable for the full size image that will be used that we have to replace with _b.
+                    //also passing the regular PhotoURL that will be used in the recycler view.
                     Photo photoObject = new Photo(title, author, authorId, link, tags, photoUrl);
                     mPhotoList.add(photoObject);
 
@@ -111,7 +137,6 @@ class GetFlickrJsonData implements GetRawData.OnDownloadComplete {
             //now inform the caller that processing is done - possibly returning null if there was an error
             mCallBack.onDataAvailable(mPhotoList, status);
         }
-
         Log.d(TAG, "onDownloadComplete: ends");
     }
 }

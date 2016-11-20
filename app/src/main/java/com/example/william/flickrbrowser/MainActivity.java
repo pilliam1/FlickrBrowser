@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements GetFlickrJsonData
     protected void onResume() {
         Log.d(TAG, "onResume: starts");
         super.onResume();
+        //instantiating an object and providing the input from the constructor in GetFlickrJsonData class
         GetFlickrJsonData getFlickrJsonData = new GetFlickrJsonData(this, "https://api.flickr.com/services/feeds/photos_public.gne", "en-us", true);
         getFlickrJsonData.executeOnSameThread("bouldering, climbing");
         Log.d(TAG, "onResume: ends");
@@ -60,9 +61,9 @@ public class MainActivity extends AppCompatActivity implements GetFlickrJsonData
     @Override
     public void onDataAvailable(List<Photo> data, DownloadStatus status) {
         if (status == DownloadStatus.OK){
-            Log.d(TAG, "onDownloadComplete: data is " + data);
+            Log.d(TAG, "onDataAvailable: data is " + data);
         } else {
-            Log.e(TAG, "onDownloadComplete: failed status " + status);
+            Log.e(TAG, "onDataAvailable: failed status " + status);
         }
     }
 }

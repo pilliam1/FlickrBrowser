@@ -39,8 +39,13 @@ class GetRawData extends AsyncTask<String, Void, String> {
         mCallBack = callBack;
     }
 
-    //need to override the required Async methods
+    void runInSameThread(String s){
+        Log.d(TAG, "runInSameThread: starts");
+        onPostExecute(doInBackground(s));
+        Log.d(TAG, "runInSameThread: ends");
+    }
 
+    //need to override the required Async methods
     @Override
     protected void onPostExecute(String s) {
         Log.d(TAG, "onPostExecute: parameter = " + s);
@@ -105,5 +110,6 @@ class GetRawData extends AsyncTask<String, Void, String> {
         downloadStatus = DownloadStatus.FAILED_OR_EMPTY;
         return null;
     }
+
 }
 
