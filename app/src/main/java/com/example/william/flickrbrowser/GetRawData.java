@@ -49,7 +49,7 @@ class GetRawData extends AsyncTask<String, Void, String> {
     //calls the call back interface to run onDownloadComplete
     @Override
     protected void onPostExecute(String s) {
-        //Log.d(TAG, "onPostExecute: parameter = " + s);
+        Log.d(TAG, "onPostExecute: parameter = " + s);
         if(mCallBack != null){
             mCallBack.onDownloadComplete(s, downloadStatus);
         }
@@ -111,6 +111,5 @@ class GetRawData extends AsyncTask<String, Void, String> {
         downloadStatus = DownloadStatus.FAILED_OR_EMPTY;
         return null;
     }
-
 }
 
