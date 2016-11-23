@@ -55,7 +55,7 @@ class GetFlickrJsonData extends AsyncTask<String, Void, List<Photo>> implements 
         Log.d(TAG, "executeOnSameThread: ends");
     }
 
-    //calls the onDataAvailable call back method
+    //calls the onDataAvailable call back method on the main thread
     @Override
     protected void onPostExecute(List<Photo> photos) {
         Log.d(TAG, "onPostExecute: starts");

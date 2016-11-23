@@ -8,13 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.squareup.picasso.Picasso;
+import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements GetFlickrJsonData.OnDataAvailable{
+public class MainActivity extends AppCompatActivity implements GetFlickrJsonData.OnDataAvailable,
+                                                                RecyclerItemClickListener.OnRecyclerClickListener {
     private static final String TAG = "MainActivity";
     private FlickrRecyclerViewAdapter mFlickrRecyclerViewAdapter;
 
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements GetFlickrJsonData
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         //hooking up the recyclerview instance we created to a layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //we can pass this as the context and OnRecyclerClickListener because we implemented the required interface
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, recyclerView, this));
 
         //create a new instance of our RecyclerViewAdapter and associate it with out RecyclerView with setAdapter method
         mFlickrRecyclerViewAdapter = new FlickrRecyclerViewAdapter(this, new ArrayList<Photo>());
@@ -82,5 +85,18 @@ public class MainActivity extends AppCompatActivity implements GetFlickrJsonData
             Log.e(TAG, "onDataAvailable: failed status " + status);
         }
         Log.d(TAG, "onDataAvailable: ends");
+    }
+
+    //implementing interface methods from RecyclerItemClickListener.OnRecyclerClickListener
+    @Override
+    public void onItemClick(View view, int position) {
+        Log.d(TAG, "onItemClick: starts");
+        Toast.makeText(MainActivity.this, "Normal tap at position " + position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLongItemClick(View view, int position) {
+        Log.d(TAG, "onLongItemClick: starts");
+        Toast.makeText(MainActivity.this, "Long tap at position " + position, Toast.LENGTH_SHORT).show();
     }
 }
