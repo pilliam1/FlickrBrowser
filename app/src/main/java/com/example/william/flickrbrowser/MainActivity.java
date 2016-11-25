@@ -1,5 +1,6 @@
 package com.example.william.flickrbrowser;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements GetFlickrJsonData.OnDataAvailable,
+public class MainActivity extends BaseActivity implements GetFlickrJsonData.OnDataAvailable,
                                                                 RecyclerItemClickListener.OnRecyclerClickListener {
     private static final String TAG = "MainActivity";
     private FlickrRecyclerViewAdapter mFlickrRecyclerViewAdapter;
@@ -24,9 +25,8 @@ public class MainActivity extends AppCompatActivity implements GetFlickrJsonData
         Log.d(TAG, "onCreate: starts");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         //creating recycler view instance and setting its layout we created
+        activateToolbar(false);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         //hooking up the recyclerview instance we created to a layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -97,6 +97,12 @@ public class MainActivity extends AppCompatActivity implements GetFlickrJsonData
     @Override
     public void onLongItemClick(View view, int position) {
         Log.d(TAG, "onLongItemClick: starts");
-        Toast.makeText(MainActivity.this, "Long tap at position " + position, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this, "Long tap at position " + position, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this,PhotoDetailActivity.class);
+        //using the putExtra method to store a photo object in the intent, the key we use comes from the PHOTO_TRANSFER constant
+        //found in the baseclass, and we get the actual photo by using the getPhoto method on the adapter, telling it the position
+        //of the photo we want. The position parameter passed to this onLongItemClick comes from the recyclerView, confirming the position we tapped
+        intent.putExtra(PHOTO_TRANSFER, mFlickrRecyclerViewAdapter.getPhoto(position));
+        startActivity(intent);
     }
 }

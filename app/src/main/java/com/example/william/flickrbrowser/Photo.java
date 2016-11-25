@@ -1,11 +1,15 @@
 package com.example.william.flickrbrowser;
 
+import java.io.Serializable;
+
 /**
  * Created by William on 12/11/2016.
  */
 
 //holding data relating to a photo
-class Photo {
+class Photo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private String mTitle;
     private String mAuthor;
     private String mAutherId;

@@ -54,7 +54,7 @@ class RecyclerItemClickListener extends RecyclerView.SimpleOnItemTouchListener {
         });
     }
 
-    //passing the gesturedetecter into this method to it can take care of it, its read by the MotionEvent parameter
+    //passing the touchEvent when intercepted to the gesture detector. its read by the MotionEvent parameter
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
         Log.d(TAG, "onInterceptTouchEvent: starts");
