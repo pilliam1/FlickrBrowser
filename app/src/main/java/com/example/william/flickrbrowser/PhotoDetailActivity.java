@@ -31,7 +31,7 @@ public class PhotoDetailActivity extends BaseActivity {
             photoTag.setText("Tag: " + photo.getTags());
 
             TextView photoAuthor = (TextView) findViewById(R.id.photo_author);
-            photoAuthor.setText("Author: " + photo.getAuthor());
+            photoAuthor.setText(photo.getAuthor());
 
             ImageView photoImage = (ImageView) findViewById(R.id.photo_image);
             Picasso.with(this).load(photo.getLink())

@@ -45,7 +45,7 @@ class RecyclerItemClickListener extends RecyclerView.SimpleOnItemTouchListener {
                 Log.d(TAG, "onLongPress: starts");
                 View childView = recyclerView.findChildViewUnder(e.getX(),e.getY());
                 if (childView != null && mListener != null){
-                    Log.d(TAG, "onLongPress: calling listener.onItemLongClick");
+                    Log.d(TAG, "onLongPress: calling listener.onLongItemClick");
                     //1st param: set the view
                     //2nd param: returns position of childview variable
                     mListener.onLongItemClick(childView, recyclerView.getChildAdapterPosition(childView));
