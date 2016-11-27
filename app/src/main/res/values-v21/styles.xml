@@ -5,5 +5,8 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/primary_dark</item>
+        <item name="android:textColorSecondary">@color/secondary_text</item>
+        <item name="colorPrimary">@color/primary</item>
     </style>
 </resources>

@@ -1,11 +1,11 @@
 package com.example.william.flickrbrowser;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,10 +43,14 @@ public class MainActivity extends BaseActivity implements GetFlickrJsonData.OnDa
     protected void onResume() {
         Log.d(TAG, "onResume: starts");
         super.onResume();
-        //instantiating an object and providing the input from the constructor in GetFlickrJsonData class
-        GetFlickrJsonData getFlickrJsonData = new GetFlickrJsonData(this, "https://api.flickr.com/services/feeds/photos_public.gne", "en-us", true);
-//        getFlickrJsonData.executeOnSameThread("bouldering, climbing");
-        getFlickrJsonData.execute("bouldering, climbing");
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String queryResult = sharedPreferences.getString(FLICKR_QUERY, "");
+        if (queryResult.length() > 0){
+            //instantiating an object and providing the input from the constructor in GetFlickrJsonData class
+            GetFlickrJsonData getFlickrJsonData = new GetFlickrJsonData(this, "https://api.flickr.com/services/feeds/photos_public.gne", "en-us", true);
+            getFlickrJsonData.execute(queryResult);
+        }
         Log.d(TAG, "onResume: ends");
     }
 
@@ -69,6 +73,13 @@ public class MainActivity extends BaseActivity implements GetFlickrJsonData.OnDa
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id.action_search){
+            //invoking the search activity class thats why its the second parameter
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
             return true;
         }
         Log.d(TAG, "onOptionsItemSelected() returned: returned");

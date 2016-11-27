@@ -41,24 +41,30 @@ class FlickrRecyclerViewAdapter extends RecyclerView.Adapter<FlickrRecyclerViewA
     @Override
     public void onBindViewHolder(FlickrImageViewHolder holder, int position) {
         //called by layout manager when it wants new data in an existing row
-        Photo photoItem = mPhotoList.get(position);
-        Log.d(TAG, "onBindViewHolder: " + photoItem.getTitle() + " ---> " + position);
-        Picasso.with(mContext).load(photoItem.getImage())
-                .error(R.drawable.placeholder)
-                .placeholder(R.drawable.placeholder)
-                .into(holder.thumbnail);
+        if ((mPhotoList == null)|| (mPhotoList.size()== 0)){
+            holder.thumbnail.setImageResource(R.drawable.placeholder);
+            holder.title.setText(R.string.empty_photo);
+        } else {
+            Photo photoItem = mPhotoList.get(position);
+            Log.d(TAG, "onBindViewHolder: " + photoItem.getTitle() + " ---> " + position);
+            Picasso.with(mContext).load(photoItem.getImage())
+                    .error(R.drawable.placeholder)
+                    .placeholder(R.drawable.placeholder)
+                    .into(holder.thumbnail);
 
-        holder.title.setText(photoItem.getTitle());
+            holder.title.setText(photoItem.getTitle());
+        }
     }
 
     @Override
     public int getItemCount() {
-        return ((mPhotoList != null) && (mPhotoList.size()!= 0) ? mPhotoList.size() : 0);
+        //hvae to set the false statement of this to 1 so that our empty photo string can show or nothing will
+        return ((mPhotoList != null) && (mPhotoList.size()!= 0) ? mPhotoList.size() : 1);
     }
 
     //when a new query is made, let the adapter know that it has a new list
-    void loadNewData(List<Photo> newPhotos){
-        mPhotoList = newPhotos;
+    void loadNewData(List<Photo> newPhoto){
+        mPhotoList = newPhoto;
         notifyDataSetChanged();
     }
 
