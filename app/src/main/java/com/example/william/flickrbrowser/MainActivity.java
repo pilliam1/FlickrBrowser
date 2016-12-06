@@ -38,6 +38,7 @@ public class MainActivity extends BaseActivity implements GetFlickrJsonData.OnDa
         recyclerView.setAdapter(mFlickrRecyclerViewAdapter);
         Log.d(TAG, "onCreate: ends");
         //HEllo broseph
+        //hello prosepherino
     }
 
     @Override
