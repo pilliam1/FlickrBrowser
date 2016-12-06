@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity implements GetFlickrJsonData.OnDa
         Log.d(TAG, "onCreate: ends");
         //HEllo broseph
         //hello prosepherino
-        //we making changes bois
+        //we making changes boiss
     }
 
     @Override
