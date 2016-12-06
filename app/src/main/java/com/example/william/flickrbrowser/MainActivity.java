@@ -37,6 +37,7 @@ public class MainActivity extends BaseActivity implements GetFlickrJsonData.OnDa
         mFlickrRecyclerViewAdapter = new FlickrRecyclerViewAdapter(this, new ArrayList<Photo>());
         recyclerView.setAdapter(mFlickrRecyclerViewAdapter);
         Log.d(TAG, "onCreate: ends");
+        //HEY BRAHS
     }
 
     @Override
